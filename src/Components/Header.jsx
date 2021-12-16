@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BasketListContext } from "./BasketListProvider";
+import { useAuth } from "./AuthProvider";
 
 function Header() {
   const [basketList, setBasketList] = useContext(BasketListContext);
-
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   return (
     <div className="header">
       <Link to="/">
@@ -21,16 +23,21 @@ function Header() {
         <input className="header__searchInput" type="text" />
         <SearchIcon className="header__searchIcon" />
       </div>
+
       <div className="header__navbar">
-        <div className="header__options">
+        <div
+          onClick={!user ? () => navigate("/login") : logout}
+          className="header__options"
+        >
           <div className="firstline__option">
-            <span>Hello guest</span>
+            <span>Hello {user ? user.email : <>guest</>}</span>
           </div>
           <div className="secondline__option">
-            <span>Sign Up</span>
+            <span>{user ? <>Sign Out</> : <>Sign In</>}</span>
           </div>
         </div>
-        <div className="header__options">
+
+        <div onClick={() => navigate("/orders")} className="header__options">
           <div className="firstline__option">
             <span>Returns</span>
           </div>
@@ -38,6 +45,7 @@ function Header() {
             <span>& Orders</span>
           </div>
         </div>
+
         <div className="header__options">
           <div className="firstline__option">
             <span>Your</span>
@@ -47,7 +55,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <Link to="checkout">
+      <Link to="/checkout">
         <div className="header__optionBasket">
           <ShoppingBasketIcon className="header__basketIcon" />
           <span className="secondline__option header__basketCount">
