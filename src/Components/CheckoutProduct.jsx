@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./CheckoutProduct.css";
 import { BasketListContext } from "./BasketListProvider";
 
-function CheckoutProduct({ id, title, price, imageURL, rating }) {
+function CheckoutProduct({ id, title, price, imageURL, rating, hidebutton }) {
   const [basketList, setBasketList] = useContext(BasketListContext);
 
   function removefromCart() {
@@ -27,7 +27,7 @@ function CheckoutProduct({ id, title, price, imageURL, rating }) {
         <div className="checkoutproduct__info">
           <p className="checkoutproduct__title">{title}</p>
           <p className="checkoutproduct__price">
-            <small>$</small>
+            <small>₹</small>
             <strong>{price}</strong>
           </p>
           <div className="checkoutproduct__rating">
@@ -38,9 +38,9 @@ function CheckoutProduct({ id, title, price, imageURL, rating }) {
               ))}
           </div>
         </div>
-        <button onClick={removefromCart} className="">
+        {!hidebutton && <button onClick={removefromCart} className="">
           Remove from cart
-        </button>
+        </button>}
       </div>
     </div>
   );

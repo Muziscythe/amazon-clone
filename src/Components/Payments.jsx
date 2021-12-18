@@ -20,20 +20,27 @@ function Payments() {
   const [success, setSuccess] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentId,setPaymentId] = useState('');
+  const [paymentCreated,setPaymentCreated] = useState(null);
+  const [amount, setAmount] = useState(null);
   let totalPrice = basketList.reduce((acc, curr) => {
     return acc + curr.price;
   }, 0);
 
-  // useEffect(() => {
-  //   const getClientSecret = async () => {
-  //     const response = await axios({
-  //       method: "post",
-  //       url: "payments/create?total=${totalPrice* 100}"
-  //     });
-  //     setClientSecret(response.data.clientSecret);
-  //   };
-  //   getClientSecret();
-  // }, [basketList]);
+  useEffect(() => {
+    const getClientSecret = async () => {
+      const response = await axios({
+        method: "post",
+        url: `payments/create?total=${totalPrice * 100}`
+      });
+      setClientSecret(response.data.clientSecret);
+      setPaymentId(response.data.id);
+      setPaymentCreated(response.data.created);
+      setAmount(response.data.amount);
+      console.log(response);
+    };
+    getClientSecret();
+  }, [basketList]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,8 +57,24 @@ function Payments() {
         setSuccess(true);
         setError(null);
         setProcessing(false);
+        const pushOrdertoDB = async ()=>{
+          const res = await axios({
+            method: "post",
+            url: "payments/complete",
+            data:{
+              user: user.uid,
+              basket: basketList,
+              paymentId: paymentId,
+              paymentCreated: paymentCreated,
+              amount: amount
+            }
+          });
+        }
+        pushOrdertoDB();
+        navigate("../orders",{replace:true});
       });
-    navigate.replace("/orders");
+      setBasketList([]);
+
   };
 
   function handleChange(e) {
@@ -113,7 +136,7 @@ function Payments() {
                   value={totalPrice}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"₹"}
                 />
                 <button
                   type="submit"

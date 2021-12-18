@@ -32,7 +32,7 @@ function Subtotal() {
         value={totalPrice}
         displayType={"text"}
         thousandSeparator={true}
-        prefix={"$"}
+        prefix={"₹"}
       />
       <button
         disabled={!user}

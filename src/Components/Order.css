@@ -1,0 +1,17 @@
+.Order{
+  background-color: white;
+  width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid lightgrey;
+}
+
+.Order > h3{
+  margin: 20px;
+  text-align: right;
+}
+
+.Order__amount{
+  text-align: right;
+  margin: 20px;
+}
