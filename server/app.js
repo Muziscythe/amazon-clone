@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
+const stripe = require('stripe')('sk_test_51K6GY4SDG6DyzIiaxNfxyK5cAyT8tkso4rkcNX8m4RhP3smLh9Uy0I1uva00ea86rSNkNqkDeKMgo5VlRv2UAZX2005w99vtME');
 
 const port = process.env.PORT || 5000;
 mongoose.connect("mongodb+srv://admin-muzi:Testmuzi@clone1.gun65.mongodb.net/Orders_Amazon_clone", {useNewUrlParser: true});
@@ -12,7 +13,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.json());
-
+app.use(cors());
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
