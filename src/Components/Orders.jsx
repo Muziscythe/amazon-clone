@@ -22,7 +22,7 @@ function Orders() {
       // console.log(orders);
     }
     getOrders();
-  },[]);
+  });
   console.log(orders);
   return (
     <div className="orders">

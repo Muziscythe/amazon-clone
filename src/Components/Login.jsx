@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, accError } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -45,6 +45,7 @@ function Login() {
               type="password"
             />
           </div>
+          {accError && <p>{accError}</p>}
           <button disabled={loading} type="submit" className="login__SignIn">
             Sign In
           </button>

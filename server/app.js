@@ -1,21 +1,21 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const path = require('path');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-
 const port = process.env.PORT || 5000;
-mongoose.connect("mongodb://localhost:27017/Orders_Amazon_clone", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://admin-muzi:Testmuzi@clone1.gun65.mongodb.net/Orders_Amazon_clone", {useNewUrlParser: true});
 
 const app = express();
 app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.json());
-app.use(cors({
-  origin: true
-}));
+
+const buildPath = path.join(__dirname, '..', 'build');
+app.use(express.static(buildPath));
+
 const basketSchema = new mongoose.Schema({
   id: Number,
   title: String,
@@ -37,11 +37,11 @@ const Order = new mongoose.model("Order",ordersSchema);
 const UserOrder = new mongoose.model("UserOrder",userOrdersSchema);
 
 
-app.get("/", (req, res) => {
-  res.send("Hey there its working");
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname,'..', 'build', 'index.html'));
 });
 
-app.post("/payments/create", cors(), async (req, res) => {
+app.post("/payments/create",async (req, res) => {
   const total = req.query.total;
   console.log(total);
   const paymentIntent = await stripe.paymentIntents.create({
@@ -55,10 +55,10 @@ app.post("/payments/create", cors(), async (req, res) => {
     created: paymentIntent.created,
     amount: paymentIntent.amount
   });
-  console.log(paymentIntent);
+  // console.log(paymentIntent);
 });
 
-app.post("/payments/complete", cors(), async (req, res) => {
+app.post("/payments/complete",async (req, res) => {
   console.log(req.body);
   const userid = req.body.user;
   const basket = req.body.basket;
@@ -84,13 +84,13 @@ app.post("/payments/complete", cors(), async (req, res) => {
           orders: order
         });
         userorder.save();
-        console.log("user added");
+        // console.log("user added");
       }
       else{
         console.log(foundUserOrder);
         foundUserOrder.orders.push(order);
         foundUserOrder.save();
-        console.log("order pushed");
+        // console.log("order pushed");
       }
     }
   });
@@ -117,18 +117,16 @@ app.get("/orders/:user" ,(req,res)=>{
           };
           orderResponse.push(element);
         });
-        console.log(orderResponse);
+        // console.log(orderResponse);
         res.send(orderResponse);
             }
       else{
-        console.log("nothing happened");
+        // console.log("nothing happened");
       }
     }
-
-    // console.log(orderArray);
   })
 });
 
 app.listen(port, () => {
-  console.log("Server started at port 5000");
+  console.log(`Server started at port ${port}`);
 });
