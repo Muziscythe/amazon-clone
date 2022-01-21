@@ -19,7 +19,7 @@ function Order({paymentId,amount,basket,created}){
         />
       );
     })}
-    <p className="Order__amount">Order Price: {amount}</p>
+    <p className="Order__amount">Order Price: ₹{amount}</p>
   </div>
 }
 

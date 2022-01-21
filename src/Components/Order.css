@@ -1,4 +1,4 @@
-.Order{
+.Order {
   background-color: white;
   width: 800px;
   margin: 20px auto;
@@ -6,12 +6,19 @@
   border: 1px solid lightgrey;
 }
 
-.Order > h3{
+.Order > h3 {
   margin: 20px;
   text-align: right;
 }
 
-.Order__amount{
+.Order__amount {
   text-align: right;
   margin: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .Order {
+    width: 300px;
+    padding: 3px;
+  }
 }

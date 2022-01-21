@@ -51,3 +51,21 @@
   height: 30px;
   width: 200px;
 }
+
+@media only screen and (max-width: 600px) {
+  .payments__section {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .payments__details > form {
+    width: 280px !important;
+  }
+  .payments__address,
+  .payments__review,
+  .payments__details {
+    flex: 1;
+    margin: 10px auto;
+  }
+}

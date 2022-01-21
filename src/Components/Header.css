@@ -43,6 +43,9 @@
 .header__options {
   margin: 10px;
 }
+.header__options:hover {
+  cursor: pointer;
+}
 .firstline__option {
   font-size: 10px;
 }
@@ -65,4 +68,20 @@
 }
 .header__basketIcon {
   color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .header__search {
+    display: none;
+  }
+  .header {
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .header__logo {
+    width: 50px;
+    object-fit: contain;
+  }
 }
